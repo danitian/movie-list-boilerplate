@@ -10,13 +10,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.allMovies = [
-      {title: 'Mean Girls'},
-      {title: 'Hackers'},
-      {title: 'The Grey'},
-      {title: 'Sunshine'},
-      {title: 'Ex Machina'},
-    ];
+    this.allMovies = ExampleMovieData;
 
     this.watchedMovies = [
       {title: 'Mean Girls'},
@@ -33,8 +27,26 @@ class App extends React.Component {
       searchTextValue: '',
       addMovieTextValue: '',
       tab: 'All',
-      displayedMovies: this.allMovies
+      displayedMovies: this.allMovies,
+      clickedMovieTitle: '',
+      selectMovie: false
     }
+  }
+
+  movieTitleClick(movie) { // pass in actual movie object from movielistentry later
+    // when movie is clicked, display info about the movie
+    // set onclick listener in the movielistentry file
+    // when clicked, make api call to tmdb and return data
+    // when clicked, renders new div with all the details...
+    // each movielistentry has their show/hidable div. if the state is true and the movie equals the one that's clicked, show, if false, hide
+
+    console.log('clicked movie');
+    console.log(movie);
+
+    this.setState({
+      clickedMovie: movie.title, // compare this title to the one in movielistentry
+      selectMovie: !this.state.selectMovie // toggles the movie select state so if the title equals and this state is false, then hide the details element
+    })
   }
 
   addMovieTextChangeHandler(event) {
@@ -148,7 +160,7 @@ class App extends React.Component {
           </div>
         </div>
         <div>
-          <MovieList movies={this.state.displayedMovies} />
+          <MovieList movies={this.state.displayedMovies} movieTitleClick={this.movieTitleClick.bind(this)} clickedMovie={this.state.clickedMovie} selectMovie={this.state.selectMovie} watched={this.state.tab} />
         </div>
       </div>
     )
